@@ -1,8 +1,9 @@
 import sqlite3
 
 # Connect to the existing database
-conn = sqlite3.connect("budget_tracker.db")
-cursor = conn.cursor()
+try:
+    conn = sqlite3.connect("budget_tracker.db")
+    cursor = conn.cursor()
 
 # Example 1: Show all transactions for a user
 print("\n🔍 Transactions for Alice:")
@@ -52,4 +53,10 @@ GROUP BY c.name, b.limit_amount;
 for row in cursor.fetchall():
     print(row)
 
-conn.close()
+finally:
+    if conn:
+        conn.close()
+
+except sqlite3.Error as e:
+    print(f"❌ Database error: {e}")
+
